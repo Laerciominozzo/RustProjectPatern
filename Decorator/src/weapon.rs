@@ -1,15 +1,17 @@
 
 pub trait Weapon{
 
-    fn mount (&self);
+    fn mount (&self) -> String;
+
 }
+
 
 pub struct BasicWeapon;
 
 impl Weapon for BasicWeapon {
 
-    fn mount(&self) {
-        println!("This is a basic weapon!");
+    fn mount(&self) -> String {
+        "This is a basic weapon".to_string()
     }
 }
 
@@ -18,9 +20,8 @@ pub struct Target<'a>{
 }
 
 impl<'a> Weapon for Target<'a> {
-    fn mount(&self) {
-        self.weapon.mount();
-        println!("Add a Target in the weapon!");
+    fn mount(&self) -> String{
+        self.weapon.mount() + ", with a target"
     }
 }
 
@@ -29,9 +30,8 @@ pub struct Silencer<'a>{
 }
 
 impl<'a> Weapon for Silencer<'a>{
-    fn mount(&self) {
-        self.weapon.mount();
-        println!("Add a Silencer in the weapon!");
+    fn mount(&self) -> String{
+        self.weapon.mount() + ", with a silencer"
     }
 }
 

@@ -1,5 +1,5 @@
 [package]
-name = "Decorator"
+name = "decorator"
 version = "0.1.0"
 authors = ["Laerciominozzo <minozzolaercio@gmail.com>"]
 edition = "2018"
