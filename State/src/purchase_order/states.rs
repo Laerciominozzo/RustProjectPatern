@@ -8,6 +8,7 @@ pub struct FirstApprover;
 pub struct SecondApprover;
 pub struct Purchase;
 pub struct Closed;
+pub struct Concluded;
 
 impl OrderOperations for FirstApprover {
 
@@ -90,7 +91,7 @@ impl OrderOperations for Purchase {
     fn buy(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
         order.set_log("OK => Compra realizada com sucesso.",
                       self.get_name(),"Comprar");
-        Some(Box::new(Closed))
+        Some(Box::new(Concluded))
     }
 
     fn close(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
@@ -129,3 +130,34 @@ impl OrderOperations for Closed {
         None
     }
 }
+
+impl OrderOperations for Concluded {
+    fn get_name(&self) -> &'static str {
+        "Concluida"
+    }
+
+    fn approve(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
+        order.set_log("Err => A está concluida.",
+                      self.get_name(),"Aprovar");
+        None
+    }
+
+    fn reprove(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
+        order.set_log("Err => A está concluida.",
+                      self.get_name(),"Reprovar");
+        None
+    }
+
+    fn buy(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
+        order.set_log("Err => A está concluida.",
+                      self.get_name(),"Comprar");
+        None
+    }
+
+    fn close(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
+        order.set_log("Err => A está concluida",
+                      self.get_name(),"Fechar");
+        None
+    }
+}
+
