@@ -6,7 +6,7 @@ use super::order::{InnerOrder,OrderOperations};
 
 pub struct FirstApprover;
 pub struct SecondApprover;
-pub struct Purchase;
+pub struct Purchasing;
 pub struct Closed;
 pub struct Concluded;
 
@@ -17,7 +17,7 @@ impl OrderOperations for FirstApprover {
     }
 
     fn approve(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("OK => Ordem aprovada pelo promeiro analista.",
+        order.set_log("OK => Ordem aprovada pelo primeiro analista.",
                       self.get_name(),"Aprovar");
         Some(Box::new(SecondApprover))
     }
@@ -49,7 +49,7 @@ impl OrderOperations for SecondApprover {
     fn approve(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
         order.set_log("OK => Ordem aprovada pelo segundo analista.",
                       self.get_name(),"Aprovar");
-        Some(Box::new(Purchase))
+        Some(Box::new(Purchasing))
     }
 
     fn reprove(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
@@ -71,7 +71,7 @@ impl OrderOperations for SecondApprover {
     }
 }
 
-impl OrderOperations for Purchase {
+impl OrderOperations for Purchasing {
     fn get_name(&self) -> &'static str {
         "Em compra"
     }
@@ -107,25 +107,25 @@ impl OrderOperations for Closed {
     }
 
     fn approve(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está fechada.",
+        order.set_log("Erro => A está fechada.",
                       self.get_name(),"Aprovar");
         None
     }
 
     fn reprove(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está fechada.",
+        order.set_log("Erro => A está fechada.",
                       self.get_name(),"Reprovar");
         None
     }
 
     fn buy(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está fechada.",
+        order.set_log("Erro => A está fechada.",
                       self.get_name(),"Comprar");
         None
     }
 
     fn close(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está fechada",
+        order.set_log("Erro => A está fechada",
                       self.get_name(),"Fechar");
         None
     }
@@ -137,25 +137,25 @@ impl OrderOperations for Concluded {
     }
 
     fn approve(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está concluida.",
+        order.set_log("Erro => A está concluida.",
                       self.get_name(),"Aprovar");
         None
     }
 
     fn reprove(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está concluida.",
+        order.set_log("Erro => A está concluida.",
                       self.get_name(),"Reprovar");
         None
     }
 
     fn buy(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está concluida.",
+        order.set_log("Erro => A está concluida.",
                       self.get_name(),"Comprar");
         None
     }
 
     fn close(&self, order: &mut InnerOrder) -> Option<Box<dyn OrderOperations>> {
-        order.set_log("Err => A está concluida",
+        order.set_log("Erro => A está concluida",
                       self.get_name(),"Fechar");
         None
     }
